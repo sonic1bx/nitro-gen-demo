@@ -310,14 +310,8 @@ client.on('messageCreate', async (message) => {
 
 client.login(TOKEN);
 
-// كود بسيط يفتح بورت علشان Render يعتقد أن السيرفر شغال
-const express = require('express');
+// Fake port for Render
+const express = require("express");
 const app = express();
-
-app.get('/', (req, res) => {
-  res.send('Bot alive ✅');
-});
-
-const PORT = process.env.PORT || 3000; // تقدر تغيّر 3000 لأي بورت تبيه
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
-
+app.get("/", (req, res) => res.send("Bot is alive!"));
+app.listen(process.env.PORT || 3000, () => console.log("Server is ready."));
