@@ -1,9 +1,3 @@
-// safe-gen-bot.js
-// Node.js + discord.js v14 example (educational/demo only).
-// DOES NOT generate or send real Discord gift codes — only placeholder links for demo.
-// Usage: send message "gen" in a text channel. User must have "Administrator" permission.
-// Rate: randomized between 500ms and 1000ms (≈1-2 msgs/sec).
-// Built-in safety: maxMessagesPerRun, cooldownBetweenRuns (ms).
 
 const { 
   Client, 
@@ -17,8 +11,8 @@ const {
 } = require('discord.js');
 require('dotenv').config();
 
-const TOKEN = process.env.BOT_TOKEN; // put token in .env as BOT_TOKEN=...
-const PREFIX = ''; // empty because we use raw message "gen"
+const TOKEN = process.env.BOT_TOKEN; 
+const PREFIX = ''; 
 const COMMAND = 'gen';
 const STOP_COMMAND = 'stop';
 
@@ -31,44 +25,44 @@ const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent, // required to read message content
+    GatewayIntentBits.MessageContent, 
   ],
   partials: [Partials.Channel],
   allowedMentions: { 
-    parse: ['everyone', 'users', 'roles'] // للسماح بمنشن @everyone
+    parse: ['everyone', 'users', 'roles'] 
   }
 });
 
-// Safety/config
-const maxMessagesPerRun = 99999999999;         // maximum number of links sent in one "gen" run
-const cooldownBetweenRuns = 5 * 60 * 50; // 5 minutes cooldown between runs per guild
-const minIntervalMs = 500;   // 0.5s -> ~2 msgs/sec max
-const maxIntervalMs = 500;  // 1s  -> ~1 msg/sec min
 
-// In-memory per-guild state
-const guildState = new Map(); // guildId -> { lastRun: timestamp, running: boolean }
+const maxMessagesPerRun = 99999999999;         
+const cooldownBetweenRuns = 5 * 60 * 50;      
+const minIntervalMs = 500;
+const maxIntervalMs = 500;  
+
+
+const guildState = new Map(); 
 
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// generate a safe placeholder "link" (NOT a real Discord gift)
+
 function makePlaceholderLink() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let code = '';
   for (let i = 0; i < 24; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
-  // Use example.com to avoid creating potentially valid discord URLs
+
   return `https://discord.gift/${code}`;
 }
 
-// دالة للتحقق من صحة رابط النيترو
+
 async function checkNitroCode(code) {
   try {
     const fetch = (await import('node-fetch')).default;
     const url = `https://discord.com/api/v9/entitlements/gift-codes/${code}`;
     const response = await fetch(url);
     
-    // إذا كان الرد 200، الرابط صحيح ولم يُستخدم
+  
     return response.status === 200;
   } catch (error) {
     console.error('Error checking code:', error);
@@ -92,7 +86,7 @@ async function startGenerating(channel, guildId, requestedCount, requesterTag) {
     return;
   }
 
-  // clamp requestedCount
+  
   const count = Math.min(Math.max(1, requestedCount || 10), maxMessagesPerRun);
 
   state.running = true;
@@ -113,7 +107,7 @@ async function startGenerating(channel, guildId, requestedCount, requesterTag) {
 
   try {
 
-    // Sending loop
+ 
     for (let i = 0; i < count; i++) {
       if (state.stopRequested) {
         const stopEmbed = new EmbedBuilder()
@@ -129,14 +123,14 @@ async function startGenerating(channel, guildId, requestedCount, requesterTag) {
       const link = makePlaceholderLink();
       const code = link.replace('https://discord.gift/', '');
       
-      // التحقق من صحة الرابط
+     
       const isValid = await checkNitroCode(code);
       
       if (isValid) {
-        // إذا كان الرابط صحيح، منشن @everyone مع Embed
+      
         const validEmbed = new EmbedBuilder()
           .setColor('#FFD700')
-          .setTitle('🎉 تم العثور على رابط نيترو صحيح! 🎉')
+          .setTitle(' تم العثور على رابط نيترو صحيح! ')
           .setDescription(`**الرابط:** ${link}`)
           .addFields(
             { name: '🔢 رقم الرابط', value: `#${i+1}`, inline: true },
@@ -151,11 +145,11 @@ async function startGenerating(channel, guildId, requestedCount, requesterTag) {
         });
         console.log(`✅ Valid code found: ${code}`);
       } else {
-        // إذا كان الرابط غير صحيح، إرساله عادي
+       
         await channel.send({ content: `link #${i+1}: ${link}` });
       }
 
-      // random interval between minIntervalMs and maxIntervalMs
+     
       const wait = randomInt(minIntervalMs, maxIntervalMs);
       await new Promise(res => setTimeout(res, wait));
     }
@@ -181,7 +175,7 @@ client.on('clientReady', () => {
   console.log(`Logged in as ${client.user.tag}`);
 });
 
-// معالجة Select Menu
+
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isStringSelectMenu()) return;
   
@@ -193,7 +187,6 @@ client.on('interactionCreate', async (interaction) => {
       components: []
     });
     
-    // بدء عملية التوليد
     startGenerating(
       interaction.channel,
       interaction.guild.id,
@@ -205,10 +198,10 @@ client.on('interactionCreate', async (interaction) => {
 
 client.on('messageCreate', async (message) => {
   if (message.author.bot) return;
-  if (!message.guild) return; // only in guilds
+  if (!message.guild) return; 
   const content = message.content.trim().toLowerCase();
 
-  // أمر stop لإيقاف العملية
+
   if (content === STOP_COMMAND) {
     const member = await message.guild.members.fetch(message.author.id);
     if (!member.permissions.has(PermissionsBitField.Flags.Administrator)) {
@@ -226,20 +219,20 @@ client.on('messageCreate', async (message) => {
     return;
   }
 
-  // أمر gen لبدء العملية
+ 
   if (!content.startsWith(COMMAND)) return;
 
-  // permission check: must be admin
+  
   const member = await message.guild.members.fetch(message.author.id);
   if (!member.permissions.has(PermissionsBitField.Flags.Administrator)) {
     await message.reply('لا تملك صلاحية تنفيذ هذا الأمر. مطلوبة: Administrator.');
     return;
   }
 
-  // إنشاء Embed مع Select Menu
+
   const embed = new EmbedBuilder()
     .setColor('#5865F2')
-    .setTitle('🎁 مولد روابط النيترو')
+    .setTitle(' مولد روابط النيترو')
     .setDescription('اختر عدد الروابط التي تريد إرسالها:')
     .addFields(
       { name: '📊 الخيارات المتاحة', value: '100 - 500 - 1000 - 2500 - 5000 رابط' },
