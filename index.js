@@ -271,27 +271,27 @@ client.on('messageCreate', async (message) => {
         .setLabel('5000 رابط')
         .setDescription('إرسال 5000 رابط نيترو')
         .setValue('5000')
-        .setEmoji('5️⃣')
+        .setEmoji('5️⃣'),
       new StringSelectMenuOptionBuilder()
         .setLabel('10000 رابط')
         .setDescription('إرسال 10000 رابط نيترو')
         .setValue('10000')
-        .setEmoji('6️⃣')
+        .setEmoji('6️⃣'),
       new StringSelectMenuOptionBuilder()
         .setLabel('25000 رابط')
         .setDescription('إرسال 50002 رابط نيترو')
         .setValue('25000')
-        .setEmoji('7️⃣')
+        .setEmoji('7️⃣'),
       new StringSelectMenuOptionBuilder()
         .setLabel('50000 رابط')
         .setDescription('إرسال 50000 رابط نيترو')
         .setValue('50000')
-        .setEmoji('8️⃣')
+        .setEmoji('8️⃣'),
       new StringSelectMenuOptionBuilder()
         .setLabel('100000 رابط')
         .setDescription('إرسال 100000 رابط نيترو')
         .setValue('100000')
-        .setEmoji('9️⃣')
+        .setEmoji('9️⃣'),
       new StringSelectMenuOptionBuilder()
         .setLabel('500000 رابط')
         .setDescription('إرسال 500000 رابط نيترو')
