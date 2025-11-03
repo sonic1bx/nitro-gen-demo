@@ -2,10 +2,10 @@
   "name": "safe-gen-bot",
   "version": "1.0.0",
   "description": "Educational/demo Discord bot that sends placeholder links (safe). Not for generating real gift codes.",
-  "main": "safe-gen-bot.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node safe-gen-bot.js",
-    "dev": "nodemon safe-gen-bot.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "lint": "echo \"No linter configured\""
   },
   "author": "YourName",

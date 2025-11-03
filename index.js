@@ -33,7 +33,9 @@ const client = new Client({
 
 // Safety/config
 const maxMessagesPerRun = 500;
-const minIntervalMs = 100; // 0.5s -> ~2 msgs/sec ma // 1s  -> ~1 msg/sec mi
+const minIntervalMs = 100; // 0.1s -> ~10 msgs/sec min
+const maxIntervalMs = 1000; // 1s  -> ~1 msg/sec max
+const cooldownBetweenRuns = 5000; // 5 seconds cooldown between runs
 // In-memory per-guild state
 const guildState = new Map(); // guildId -> { lastRun: timestamp, running: boolean }
 
