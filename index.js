@@ -309,3 +309,17 @@ client.on('messageCreate', async (message) => {
 });
 
 client.login(TOKEN);
+
+// server.js
+const express = require('express');
+const app = express();
+
+// مسار اختبار بسيط
+app.get('/', (req, res) => res.send('Bot alive'));
+
+// استخدم PORT من بيئة Render أو بورت احتياطي (مثلاً 49152)
+const PORT = process.env.PORT || 49152;
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
+
