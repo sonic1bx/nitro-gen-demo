@@ -36,8 +36,8 @@ const client = new Client({
 
 const maxMessagesPerRun = 99999999999;         
 const cooldownBetweenRuns = 5 * 60 * 50;      
-const minIntervalMs = 500;
-const maxIntervalMs = 500;  
+const minIntervalMs = 50;
+const maxIntervalMs = 100;  
 
 
 const guildState = new Map(); 
