@@ -50,7 +50,7 @@ function randomInt(min, max) {
 function makePlaceholderLink() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let code = '';
-  // طول عشوائي بين 16 و 24 حرف (مثل روابط النيترو الحقيقية)
+
   const codeLength = randomInt(16, 24);
   for (let i = 0; i < codeLength; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
 
